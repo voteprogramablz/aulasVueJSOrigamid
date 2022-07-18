@@ -1,52 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <script src="./vue.js"></script>
+    <title>Vue.js</title>
+    <style>
+      li {
+        list-style: none;
+      }
+    </style>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <script src="./vue.js"></script>
-  <title>Vue.js</title>
-</head>
-
-<body>
-<!--
-  Utilizando a api:
-  https://viacep.com.br/ws/04538133/json/
-  Mostre o cep, logradouro, complemento, bairro, localidade e uf do que for retornado.
-
-  
-  Use o arquivo json da aula, para listar os cursos e as matérias.
--->
-
-  <div id="app">
-    <button @click="puxarCursos">Puxar Cursos</button>
-
-    <div v-for="curso in cursos">
-      <h1><a :href="curso.link">{{curso.curso}}</a></h1>
+  <body>
+    <div id="app">
+      <button @click="mostrarCursos">Mostrar Cursos</button>
       <ul>
-        <li v-for="{nome, tempo} in curso.aulas">
-          {{nome}}, {{tempo}}
+        <li v-for="curso in cursos">
+          <h1>Curso: {{curso.curso}}</h1>
+          <a :href="curso.link" target="_blank">link para o curso</a>
+          <h2>Aulas:</h2>
+          <ul v-for="aula in curso.aulas">
+            <li>{{aula.nome}}</li>
+            <li>duracao: {{aula.tempo}}</p>
+          </div>
         </li>
       </ul>
     </div>
-  </div>
-  <script>
-    const vm = new Vue({
-      el: "#app",
-      data: {
-        cursos: {}
-      },
-      methods: {
-        puxarCursos() {
-          fetch("./cursos.json")
-          .then(r => r.json())
-          .then(r => {
-            this.cursos = r;
-          })
-        }
-      }
-    });
-  </script>
-</body>
+    <script>
+      const vm = new Vue({
+        el: "#app",
+        data: {
+          cursos: [],
+        },
+        methods: {
+          async mostrarCursos() {
+            const response = await fetch("./cursos.json");
+            const json = await response.json();
+            console.log(json);
+            this.cursos = json;
+          },
+        },
+      });
+    </script>
+  </body>
 </html>
