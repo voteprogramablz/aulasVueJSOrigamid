@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <script src="./vue.js"></script>
+    <title>Vue.js</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      ul {
+        display: flex;
+        gap: 20px;
+        margin-bottom: 20px;
+      }
+
+      body {
+        padding-left: 40px;
+        padding-top: 40px;
+      }
+      ul li {
+        list-style: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <ul>
+        <li>
+          <a
+            @click.prevent="handleClick"
+            href="https://api.origamid.dev/stock/aapl/quote"
+            >Apple</a
+          >
+        </li>
+        <li>
+          <a
+            @click.prevent="handleClick"
+            href="https://api.origamid.dev/stock/googl/quote"
+            >Google</a
+          >
+        </li>
+        <li>
+          <a
+            @click.prevent="handleClick"
+            href="https://api.origamid.dev/stock/amzn/quote"
+            >Amazon</a
+          >
+        </li>
+        <li>
+          <a
+            @click.prevent="handleClick"
+            href="https://api.origamid.dev/stock/ebay/quote"
+            >Ebay</a
+          >
+        </li>
+        <li>
+          <a
+            @click.prevent="handleClick"
+            href="https://api.origamid.dev/stock/pypl/quote"
+            >Paypal</a
+          >
+        </li>
+      </ul>
+
+      <div>
+        <div v-if="companyData.companyName">
+          <h1>Company name</h1>
+          <p>{{companyData.companyName}}</p>
+        </div>
+        <div v-if="companyData.latestPrice">
+          <h1>Latest Price</h1>
+          <p>{{companyData.latestPrice}}</p>
+        </div>
+        <div v-if="companyData.marketCap">
+          <h1>Market Cap</h1>
+          <p>{{companyData.marketCap}}</p>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const vm = new Vue({
+        el: "#app",
+        data: {
+          companyData: {
+            companyName: "",
+            latestPrice: "",
+            marketCap: "",
+          },
+        },
+        methods: {
+          async handleClick({ target }) {
+            const url = target.href;
+            const response = await fetch(url);
+            const json = await response.json();
+            const { companyName, latestPrice, marketCap } = json;
+            this.companyData.companyName = companyName;
+            this.companyData.latestPrice = latestPrice;
+            this.companyData.marketCap = marketCap;
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

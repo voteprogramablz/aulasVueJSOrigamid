@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <script src="./vue.js"></script>
+    <title>Vue.js</title>
+  </head>
+
+  <body>
+    <div id="app">
+      <!--
+  Simule a adição de um produto no carrinho
+  este produto possui estoque de 7 itens
+  (utilize a mesma ideia do contador).
+
+  Ao atingir 7 itens mostre uma mensagem informando
+  não ser possível adicinar mais do que 7 itens.
+
+  Remova também o botão de adicionar itens.
+-->
+      <p>Produtos no carrinho: {{productsOnBag}}</p>
+      <button v-show="hideBtn" @click="handleAddOnBag">
+        Adicionar ao carrinho
+      </button>
+    </div>
+    <script>
+      const vm = new Vue({
+        el: "#app",
+        data: {
+          productsStock: 7,
+          productsOnBag: 0,
+          hideBtn: true,
+        },
+        methods: {
+          handleAddOnBag() {
+            if (this.productsOnBag < this.productsStock) {
+              this.productsOnBag++;
+            } else {
+              this.hideBtn = false;
+              alert("Caraio, quer levar a loja toda PORRA??");
+            }
+          },
+        },
+      });
+    </script>
+  </body>
+</html>
